@@ -10,7 +10,7 @@ spec:
     spec:
       containers:
       - name: kustomize-and-conftest
-        image: praveen888/opa:v1
+        image: praveen888/opa:v2
         command: ["/bin/sh", "-c"]
         args:
         - |

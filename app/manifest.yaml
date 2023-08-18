@@ -13,14 +13,7 @@ spec:
     metadata:
       labels:
         app: data-product-delivery
-        version: 2022-12-07-1048
     spec:
-      dnsConfig:
-        nameservers:
-          - 8.8.8.8
-        options:
-          - name: single-request-reopen
-          - name: use-vc
       securityContext:
         fsGroup: 2000
       containers:
