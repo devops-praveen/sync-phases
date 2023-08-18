@@ -15,9 +15,9 @@ spec:
         args:
         - |
           # Perform Kustomize build
-          kubectl version
+          kubectl Kustomize build manifest.yaml > output.yaml
 
           # Perform Conftest validation
-          conftest --version
+          conftest test -p app/test.rego output.yaml
       restartPolicy: Never
   backoffLimit: 0
