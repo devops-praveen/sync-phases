@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: presync
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      containers:
+      - name: kustomize-and-conftest
+        image: praveen888/opa:v1
+        command: ["/bin/sh", "-c"]
+        args:
+        - |
+          # Perform Kustomize build
+          kubectl version
+
+          # Perform Conftest validation
+          conftest --version
+      restartPolicy: Never
+  backoffLimit: 0
