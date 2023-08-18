@@ -12,7 +12,7 @@ spec:
         - name: kustomize-and-conftest
           image: praveen888/opa:v2
           command: ["/bin/sh", "-c"]
-          args: ["git clone https://github.com/devops-praveen/sync-phases.git && kubectl kustomize build /app/manifest.yaml > /app/output.yaml && conftest test -p /app/test.rego /app/output.yaml"]
+          args: ["git clone https://github.com/devops-praveen/sync-phases.git && kubectl kustomize build /app/ > /app/output.yaml && conftest test -p /app/test.rego /app/output.yaml"]
           env:
             - name: GIT_TERMINAL_PROMPT
               value: "0"  # To avoid interactive prompts during git clone
