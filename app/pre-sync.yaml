@@ -9,15 +9,12 @@ spec:
   template:
     spec:
       containers:
-      - name: kustomize-and-conftest
-        image: praveen888/opa:v2
-        command: ["/bin/sh", "-c"]
-        args:
-        - |
-          # Perform Kustomize build
-          kubectl Kustomize build manifest.yaml > output.yaml
-
-          # Perform Conftest validation
-          conftest test -p app/test.rego output.yaml
+        - name: kustomize-and-conftest
+          image: praveen888/opa:v2
+          command: ["/bin/sh", "-c"]
+          args: ["git clone https://github.com/devops-praveen/sync-phases.git && kubectl kustomize build /app/manifest.yaml > /app/output.yaml && conftest test -p /app/test.rego /app/output.yaml"]
+          env:
+            - name: GIT_TERMINAL_PROMPT
+              value: "0"  # To avoid interactive prompts during git clone
       restartPolicy: Never
   backoffLimit: 0
