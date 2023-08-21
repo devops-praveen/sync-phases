@@ -5,6 +5,8 @@ metadata:
   namespace: vehicle-lifecycle
   labels:
     app: data-product-delivery
+    owner: Halo 
+    project: vcdp-developers
 spec:
   selector:
     matchLabels:
@@ -18,7 +20,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: data-product-delivery
-          image: nginx:latest
+          image: 557068259488.dkr.ecr.eu-west-2.amazonaws.com/vlc-data-product-delivery:latest
           securityContext:
               runAsUser: 1000
               runAsGroup: 3000
