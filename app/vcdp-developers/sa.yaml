@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: data-product-delivery
+  namespace: vehicle-lifecycle
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::2:role/jlr-gdd-data-product-delivery

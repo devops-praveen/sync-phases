@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-product-delivery-deployment
+  namespace: vehicle-lifecycle
+  labels:
+    app: data-product-delivery
+    app.kubernetes.io/instance: data-product-delivery
+    tags.datadoghq.com/env: vcdp-developers
+    tags.datadoghq.com/service: data-product-delivery
+    tags.datadoghq.com/version: 2023-08-17-1410
+spec:
+  template:
+    metadata:
+      annotations:
+        appmesh.k8s.aws/sidecarInjectorWebhook: enabled
+        appmesh.k8s.aws/egressIgnoredPorts: "8200,9098,8126"
+      labels:
+        tags.datadoghq.com/env: "vcdp-developers"
+        tags.datadoghq.com/service: "data-product-delivery"
+        tags.datadoghq.com/version: 2023-08-17-1410
+    spec:
+      containers:
+        - name: data-product-delivery
+          env:
+            - name: spring.profiles.active
+              value: dev
+            - name: DD_AGENT_HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+            - name: DD_ENV
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['tags.datadoghq.com/env']
+            - name: DD_SERVICE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['tags.datadoghq.com/service']
+            - name: DD_VERSION
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['tags.datadoghq.com/version']
+            - name: DD_PROFILING_ENABLED
+              value: "true"
+            - name: DD_LOGS_INJECTION
+              value: "true"
+  selector:
+    matchLabels:
+      app: data-product-delivery
