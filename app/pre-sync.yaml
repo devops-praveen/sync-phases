@@ -14,7 +14,7 @@ spec:
           image: praveen888/opa:v3
           command: ["/bin/sh", "-c"]
           #args: ["cd /app && git clone https://github.com/devops-praveen/sync-phases.git  && kubectl kustomize sync-phases/app > sync-phases/app/output1.yaml && conftest test -p app/test.rego sync-phases/app/output1.yaml"]
-          args: ["git clone https://github.com/devops-praveen/sync-phases.git  && kubectl kustomize sync-phases/app/vlc-data-product-delivery-config/vcdp-developers > sync-phases/app/output1.yaml && conftest test -p test.rego sync-phases/app/output1.yaml"]
+          args: ["git clone https://github.com/devops-praveen/sync-phases.git  && kubectl kustomize sync-phases/app/base > sync-phases/app/base/output1.yaml && conftest test -p test.rego sync-phases/app/base/output1.yaml"]
           env:
             - name: GIT_TERMINAL_PROMPT
               value: "0"  # To avoid interactive prompts during git clone
