@@ -1,20 +1,56 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: data-product-delivery-deployment
   namespace: vehicle-lifecycle
+  labels:
+    app: data-product-delivery
 spec:
-  replicas: 3
   selector:
     matchLabels:
-      app: nginx
+      app: data-product-delivery
   template:
     metadata:
       labels:
-        app: nginx
+        app: data-product-delivery
     spec:
+      securityContext:
+        fsGroup: 2000
       containers:
-      - name: nginx
-        image: nginx:latest
-        ports:
-        - containerPort: 80
+        - name: data-product-delivery
+          image: nginx:latest
+          securityContext:
+              runAsUser: 1000
+              runAsGroup: 3000
+          env:
+            - name: SERVER_PORT
+              value: "8080"
+          ports:
+            - containerPort: 8080
+              name: http
+
+          livenessProbe:
+            initialDelaySeconds: 80
+            periodSeconds: 20
+            timeoutSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+          readinessProbe:
+            initialDelaySeconds: 80
+            periodSeconds: 20
+            timeoutSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 200m
+              memory: 128Mi
