@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: presync
+  namespace: vehicle-lifecycle
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      containers:
+        - name: kustomize-and-conftest
+          image: praveen888/opa:v3
+          command: ["/bin/sh", "-c"]
+          #args: ["cd /app && git clone https://github.com/devops-praveen/sync-phases.git  && kubectl kustomize sync-phases/app > sync-phases/app/output1.yaml && conftest test -p app/test.rego sync-phases/app/output1.yaml"]
+          args: ["git clone https://github.com/devops-praveen/sync-phases.git  && kubectl kustomize sync-phases/app/base > sync-phases/app/base/output1.yaml && conftest test -p test.rego sync-phases/app/base/output1.yaml"]
+          env:
+            - name: GIT_TERMINAL_PROMPT
+              value: "0"  # To avoid interactive prompts during git clone
+      restartPolicy: Never
+  backoffLimit: 0
