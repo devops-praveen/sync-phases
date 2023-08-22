@@ -7,11 +7,4 @@ spec:
   template:
     spec:
       volumes:
-        - hostPath:
-            path: /var/run/datadog/
-          name: apmsocketpath
-      containers:
-        - name: data-product-delivery
-          volumeMounts:
-            - name: apmsocketpath
-              mountPath: /var/run/datadog
+
