@@ -24,7 +24,7 @@ spec:
           - name: single-request-reopen
           - name: use-vc
       securityContext:
-        fsGroup: 2000
+        fsGroup: 3000
       containers:
         - name: data-product-delivery
           image: 557068259488.dkr.ecr.eu-west-2.amazonaws.com/vlc-data-product-delivery:latest
